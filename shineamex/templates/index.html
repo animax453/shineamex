@@ -14,7 +14,7 @@
         <h2>Jobs</h2>
         {% for job in jobs %}
             <div class="job_listing">
-                <strong><a href="job_detail.html">{{job.title}}</a></strong>
+                <strong><a href="/apply/{{job.id}}/">{{job.title}}</a></strong>
                 <ul><li>Exp - <strong>{{job.experience|key_value:'exp'}}</strong>|</li>     <li>Location - <strong>{{job.location|key_value:'loc'}}</strong></li></ul>
                 <p>{{job.description}}</p>
                 <div class="button"><a href="/apply/{{job.id}}/">Apply</a></div><div class="button"><a href="refer.html">Refer</a></div>

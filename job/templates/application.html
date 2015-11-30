@@ -5,21 +5,23 @@
             <img src="{{STATIC_URL}}images/head_image.jpg" class="image" >
             <h2>My Details</h2>
             <div class="border padding0"></div>
-            <form method="POST" action="" id="id_applicationForm">
-               {%csrf_token%}
-               <div class="input-field">      
+
+            <form method="POST" class="cls_txtanimation" action="" id="id_applicationForm">
+                {%csrf_token%}
+               <div class="input-field transform">
+
                  {{form.name}}
                   <label>Full Name</label>
                </div>
-               <div class="input-field">      
+               <div class="input-field transform">
                   {{form.contact_no}}
                   <label>Contact Number </label>
                </div>
-               <div class="input-field">      
+               <div class="input-field transform">
                   {{form.email}}
                   <label>Email Address</label>
                </div>
-               <div class="input-field">      
+               <div class="input-field transform">
                   {{form.organization}}
                   <label>Current/Last Organization</label>
                </div>
@@ -32,7 +34,7 @@
                   </div>
                </div>
                <div class="pull_left terms">   <input name="" type="checkbox" value="Conditions">I agree to the Terms &amp; Conditions</div>
-               <div class="button m10 pull_left"><input type="submit" value="Refer"/></div>
+               <div class="m10 pull_left"><input type="submit" value="Refer"/></div>
             </form>
             <div class="border pull_left"></div>
             <div class="content pull_left">

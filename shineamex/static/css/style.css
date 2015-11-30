@@ -24,7 +24,7 @@ h2 { font-weight:400; color:#333333; padding-bottom:8px; display:flex; width:100
 .job_listing ul { font-size:1.2em}
  .job_listing li { display:inline; padding:0 15px 0 0;}
   .job_listing li strong { padding-right:15px; }
-  .button { background:#2b98f0; color:#fff; text-align:center; border-radius:5px; border:solid 1px #bdc4ca; margin:10px 30px 0 0; padding:7px 26px 6px ; display:inline; font-size:1.2em; cursor:pointer}
+  .button,input[type=submit] { background:#2b98f0; color:#fff; text-align:center; border-radius:5px; border:solid 1px #bdc4ca; margin:10px 30px 0 0; padding:7px 26px 6px ; display:inline; font-size:1.2em; cursor:pointer}
 .button a { color:#fff;} 
 .thanks { text-align:center; margin:40px 0; font-size:1.5em; font-weight:400;}
 .jobdetail  { margin:10px 0}
@@ -51,23 +51,24 @@ form { width:90%; margin:0 auto;}
 input:focus{ outline:none; border:solid 1px #d9d9d9; }
 
 /* LABEL ======================================= */
-label 				 {
-  color:#999; 
-  font-size:1.3em;
-  font-weight:normal;
-  position:absolute;
-  pointer-events:none;
-  left:5px;
-  top:7px;
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+label {
+    color: #999;
+    font-size:1em;
+    font-weight: normal;
+    left: 12px;
+    pointer-events: none;
+    position: absolute;
+    top: 12px;
+    transition: all 0.2s ease 0s;
+    transform-origin : left top 0;
+
 }
 
-/* active state */
-input:focus ~ label, input:valid ~ label 		{
-  top:-25px; transform:scale(0.75);
-  color:#999; left:-10px;
+.transform label{
+    top:-17px;
+    transform:scale(0.85);
+    color:#00b9f5;
+
 }
 
 .terms input { margin-right:10px;}
