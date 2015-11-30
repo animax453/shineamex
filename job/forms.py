@@ -14,8 +14,11 @@ from models import JobApplication, JobReferral, Refree, Job
 #third party imports
 
 class JobApplicationForm(FormMixin,ModelForm):
-
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
+	name = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
+	contact_no = forms.CharField(widget=forms.TextInput(attrs={'maxlength':10}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
+	organization = forms.CharField(widget=forms.TextInput(attrs={'maxlength':200}))
 
 	class Meta:
 		model = JobApplication
@@ -50,6 +53,10 @@ class JobApplicationForm(FormMixin,ModelForm):
 
 class RefreeForm(FormMixin,ModelForm):
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
+	name = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
+	contact_no = forms.CharField(widget=forms.TextInput(attrs={'maxlength':10}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
+	organization = forms.CharField(widget=forms.TextInput(attrs={'maxlength':200}))
 	class Meta:
 		model = Refree
 		fields = ['name','contact_no','email','organization','city']
