@@ -4,7 +4,7 @@
 from django import template
 
 #local imports
-from choices import *
+from job.choices import *
 
 #inter app imports
 
@@ -19,8 +19,8 @@ def key_value(key,key_type):
                     'fa':FA_K2V,
                     'sal':SALARY_K2V,
                     }
-
-    k2v_dict = type_mapping.get('type')
+                    
+    k2v_dict = type_mapping.get(key_type)
     if not k2v_dict:
         return None
 
