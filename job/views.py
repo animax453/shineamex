@@ -54,20 +54,46 @@ class JobDetail(TemplateView):
 			return HttpResponseRedirect(redirect_path)
 		return super(JobDetail,self).get(request,*args,**kwargs)
 
-
 	def get_context_data(self,**kwargs):
 		context = super(JobDetail,self).get_context_data(**kwargs)
 		context['job'] = self.job
 		return context
 
 class JobApplicationView(FormView):
+
 	template_name = "application.html"
 	form_class = JobApplicationForm
+	success_url = "/thanks/"
 
 	@method_decorator(csrf_exempt)
 	def dispatch(self,request,*args,**kwargs):
 		return super(JobApplicationView,self).dispatch(request,*args,**kwargs)
 
-	def post(self,request,*args,**kwargs):
-		return super(JobApplicationView,self).post(request,*args,**kwargs)
+	def get_form_kwargs(self):
+		kwargs = super(JobApplicationView,self).get_form_kwargs()
+		kwargs['job_id'] = self.kwargs.get('job_id')
+		return kwargs
+
+	def form_valid(self,form):
+		form.save()
+		if not self.request.session.get('applied_jobs'):
+			self.request.session['applied_jobs'] = [int(self.kwargs.get('job_id'))]
+		else:
+			self.request.session['applied_jobs'] = self.request.session['applied_jobs'].append(int(self.kwargs.get('job_id')))
+
+		return super(JobApplicationView,self).form_valid(form)
+
+
+class ThanksView(TemplateView):
+
+	template_name = "thanks.html"
+
+	def get_context_data(self,**kwargs):
+		context = super(ThanksView,self).get_context_data(**kwargs)
+		applied_jobs_list = self.request.session.get('applied_jobs',[])
+		context['jobs'] = Job.objects.exclude(id__in=applied_jobs_list).order_by('-edited_date')
+		return context
+
+
+
 
