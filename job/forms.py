@@ -49,7 +49,7 @@ class JobApplicationForm(FormMixin,ModelForm):
 
 
 class RefreeForm(FormMixin,ModelForm):
-
+	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	class Meta:
 		model = Refree
 		fields = ['name','contact_no','email','organization','city']

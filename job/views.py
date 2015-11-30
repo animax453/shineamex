@@ -100,7 +100,7 @@ class ReferView(TemplateView):
 		context = super(ReferView,self).get_context_data(**kwargs)
 		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=5)
 		context['referral_formset'] = ReferralFormSet()
-		context['refree_form'] = ReferralForm()
+		context['refree_form'] = RefreeForm()
 		return context
 
 class AppliesDownload(View):
