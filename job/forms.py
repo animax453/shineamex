@@ -31,13 +31,9 @@ class JobApplicationForm(ModelForm):
 			raise forms.ValidationError('Invalid Job Id')
 		return super(JobApplicationForm,self).clean()
 
-	def clean_city(self,city):
-		if city<0:
+	def clean_city(self):
+		if self.city<0:
 			raise forms.ValidationError('Invalid city value')
-
-	def clean_state(self,city):
-		if city<0:
-			raise forms.ValidationError('Invalid state value')
 
 	def save(self,commit=True):
 		apply_job = super(JobApplicationForm,self).save(False)
