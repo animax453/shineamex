@@ -5,6 +5,7 @@ from django import forms
 from django.forms import ModelForm
 
 #local imports
+from choices import *
 from models import JobApplication
 
 #inter app imports
@@ -13,8 +14,8 @@ from models import JobApplication
 
 class JobApplicationForm(ModelForm):
 
-	city = forms.ChoiceField(max_length=24,widget=forms.Select(attrs={'class':'selectboxdiv'}))
-	state = forms.ChoiceField(max_length=24,widget=forms.Select(attrs={'class':'selectboxdiv'}))
+	city = forms.ChoiceField(choices=widget=CANDIDATE_CITY_CHOICES,forms.Select(attrs={'class':'selectboxdiv'}))
+	state = forms.ChoiceField(choices=CANDIDATE_STATE_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	
 	class Meta:
 		model = JobApplication
