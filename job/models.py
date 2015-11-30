@@ -31,9 +31,12 @@ class Job(models.Model):
 
 class JobApplication(models.Model):
 	name = models.CharField(max_length=50)
-	contact_no = models.IntegerField()
+	contact_no = models.CharField(max_length=10)
 	email = models.EmailField()
 	organization = models.CharField(max_length=100)
 	city = models.IntegerField(choices=CANDIDATE_CITY_CHOICES,default=0)
+	state = models.IntegerField(choices=CANDIDATE_STATE_CHOICES,default=0)
 	application_date = models.DateTimeField(default=datetime.now)
+	job_id = models.IntegerField()
+
 

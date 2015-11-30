@@ -1,6 +1,8 @@
 #python imports
 
 #django imports
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponseRedirect
 from django.utils.text import slugify
 from django.views.generic import ListView, TemplateView, FormView
@@ -61,4 +63,11 @@ class JobDetail(TemplateView):
 class JobApplicationView(FormView):
 	template_name = "application.html"
 	form_class = JobApplicationForm
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self,request,*args,**kwargs):
+		return super(JobApplicationView,self).dispatch(request,*args,**kwargs)
+
+	def post(self,request,*args,**kwargs):
+		return super(JobApplicationView,self).post(request,*args,**kwargs)
 
