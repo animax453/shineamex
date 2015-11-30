@@ -74,6 +74,40 @@ input:focus ~ label, input:valid ~ label 		{
 
 .terms { font-size:1.3em; color:#999; width:100%;}
 
+.selectdiv {
+    background: #fff url("/static/images/recruiter_sprit.png") no-repeat scroll right -462px;
+    border: 1px solid #e1e0dd;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 35px;
+    line-height: 30px;
+    position: relative;
+    width: 100%;
+    float:left;
+}
+
+.selectboxdiv {
+    cursor: pointer;
+    height: 32px;
+    left: 0;
+    margin-top: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+}
+
+.selectdiv div {
+    border: 0 solid #000000;
+    cursor: pointer;
+    height: 31px;
+    overflow: hidden;
+    padding: 1px 0 0 2px;
+    text-align: left;
+    z-index: -1;
+}
+.mar_rgt26{margin-right:34px;}
 /* =======================================
 1. Section: header
 ======================================== */

@@ -1,5 +1,6 @@
+
 {% extends "layout_amex.html" %}
-{%load job_tags %}
+{%load job_tags%}
 {% block body %}
 <div class="base pull_left">
 <div class="cointainer"><img src="{{STATIC_URL}}images/head_image.jpg" class="image" >
@@ -9,7 +10,7 @@
 
 <div class="jobdetailLeft">
 <strong>{{job.title}}</strong>
-<ul><li>Exp - <strong>{{job.experience|key_value:'exp'}}</strong>|</li>     <li>Location - <strong>{{job.location}}</strong></li></ul></div>
+<ul><li>Exp - <strong>{{job.experience|key_value:'exp'}}</strong>|</li>     <li>Location - <strong>{{job.location|key_value:'loc'}}</strong></li></ul></div>
 
 <div class="jobdetailRight">
 <div class="button"><a href="#">Apply</a></div><div class="button"><a href="#">Refer</a></div>
