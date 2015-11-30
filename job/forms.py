@@ -6,7 +6,7 @@ from django.forms import ModelForm
 
 #local imports
 from choices import *
-from models import JobApplication, Job
+from models import JobApplication, Job, Refree
 
 #inter app imports
 
@@ -15,11 +15,10 @@ from models import JobApplication, Job
 class JobApplicationForm(ModelForm):
 
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
-	state = forms.ChoiceField(initial="-1",choices=CANDIDATE_STATE_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	
 	class Meta:
 		model = JobApplication
-		fields = ['name','contact_no','email','organization','city','state']
+		fields = ['name','contact_no','email','organization','city']
 
 	def __init__(self,**kwargs):
 		if kwargs.get('job_id'):
@@ -45,3 +44,20 @@ class JobApplicationForm(ModelForm):
 		setattr(apply_job,'job_id',int(self.job_id))
 		apply_job.save()
 		return apply_job 
+
+
+class RefreeForm(JobApplicationForm):
+
+	class Meta:
+		model = Refree
+		fields = ['name','contact_no','email','organization','city']
+
+	def save(self,commit=True):
+		return super(JobApplicationForm,self).save(commit)
+
+class ReferralForm(JobApplicationForm):
+
+	class Meta:
+		model = JobReferral
+		fields = ['name','contact_no','email','organization','city']
+

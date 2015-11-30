@@ -6,9 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponseRedirect
 from django.utils.text import slugify
 from django.views.generic import ListView, TemplateView, FormView
+from django.forms.models import formset_factory
 
 #local imports
-from forms import JobApplicationForm
+from forms import JobApplicationForm, JobRefferalForm, RefreeForm
 from models import Job
 
 #inter app imports
@@ -89,6 +90,18 @@ class ThanksView(TemplateView):
 		applied_jobs_list = self.request.session.get('applied_jobs',[])
 		context['jobs'] = Job.objects.exclude(id__in=applied_jobs_list).order_by('-edited_date')
 		return context
+
+
+class ReferView(TemplateView):
+
+	template_name = "refer.html"
+
+	def get_context_data(self,**kwargs):
+		ReferralFormSet = formset_factory(JobRefferalForm,extra=1, max_num=5)
+		context['refrral_formset'] = ReferralFormSet()
+		context['refree_form'] = JobRefferalForm()
+		return context
+
 
 
 
