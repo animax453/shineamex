@@ -65,10 +65,6 @@ class JobApplicationView(FormView):
 	form_class = JobApplicationForm
 	success_url = "/thanks/"
 
-	@method_decorator(csrf_exempt)
-	def dispatch(self,request,*args,**kwargs):
-		return super(JobApplicationView,self).dispatch(request,*args,**kwargs)
-
 	def get_form_kwargs(self):
 		kwargs = super(JobApplicationView,self).get_form_kwargs()
 		kwargs['job_id'] = self.kwargs.get('job_id')

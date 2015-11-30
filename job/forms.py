@@ -14,8 +14,8 @@ from models import JobApplication, Job
 
 class JobApplicationForm(ModelForm):
 
-	city = forms.ChoiceField(choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
-	state = forms.ChoiceField(choices=CANDIDATE_STATE_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
+	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
+	state = forms.ChoiceField(initial="-1",choices=CANDIDATE_STATE_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	
 	class Meta:
 		model = JobApplication
@@ -31,6 +31,14 @@ class JobApplicationForm(ModelForm):
 		if not Job.objects.filter(id=int(self.job_id)):
 			raise forms.ValidationError('Invalid Job Id')
 		return super(JobApplicationForm,self).clean()
+
+	def clean_city(self,city):
+		if city<0:
+			raise forms.ValidationError('Invalid city value')
+
+	def clean_state(self,city):
+		if city<0:
+			raise forms.ValidationError('Invalid state value')
 
 	def save(self,commit=True):
 		apply_job = super(JobApplicationForm,self).save(False)
