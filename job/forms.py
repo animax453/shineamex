@@ -6,7 +6,7 @@ from django.forms import ModelForm
 
 #local imports
 from choices import *
-from models import JobApplication, JobReferral, Refree
+from models import JobApplication, JobReferral, Refree, Job
 
 #inter app imports
 
@@ -32,8 +32,13 @@ class JobApplicationForm(ModelForm):
 		return super(JobApplicationForm,self).clean()
 
 	def clean_city(self):
-		if self.city<0:
+		city = self.cleaned_data.get('city')
+		if not city or not city.isdigit():
 			raise forms.ValidationError('Invalid city value')
+
+		if int(city)<0:
+			raise forms.ValidationError('Invalid city value')
+		return self.cleaned_data.get('city')
 
 	def save(self,commit=True):
 		apply_job = super(JobApplicationForm,self).save(False)
