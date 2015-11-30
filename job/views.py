@@ -97,6 +97,8 @@ class ReferView(TemplateView):
 	template_name = "refer.html"
 
 	def get_context_data(self,**kwargs):
+		# import ipdb;ipdb.set_trace();
+		context = super(ReferView,self).get_context_data(**kwargs)
 		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=5)
 		context['refrral_formset'] = ReferralFormSet()
 		context['refree_form'] = ReferralForm()
