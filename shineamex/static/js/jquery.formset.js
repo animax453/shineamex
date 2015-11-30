@@ -77,7 +77,7 @@
                     return false;
                 });
 
-                var tot_set = $($$.parent().selector.replace('.parent()',''));
+                var tot_set = $($$.parent().find('.'+options.formCssClass));
                 if(tot_set.length == 1){
                     tot_set.find('.'+options.deleteCssClass).css({'display':'none'});
                 }
@@ -153,7 +153,7 @@
                 // If a post-add callback was supplied, call it with the added form:
                 if (options.added) options.added(row);
 
-                var tot_set = $($$.parent().selector.replace('.parent()',''));
+                var tot_set = $($$.parent().find('.'+options.formCssClass));
                 if(tot_set.length > 1 ){
                     tot_set.find('.'+options.deleteCssClass).css({'display':'block'});
                 }
