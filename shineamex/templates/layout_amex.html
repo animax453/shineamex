@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block head %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title></title>
+        <link href="{{STATIC_URL}}css/style.css" rel="stylesheet" type="text/css">
+    </head>
+{% endblock head %}
+
+<body>
+    {% block header %}
+        <div class="cointainer">
+            <div class="head">
+                <span class="logo">
+                    <img src="{{STATIC_URL}}images/logo.png" width="69" height="57">
+                </span>
+                <ul class=" tabs">
+                    <li><a href="#">About American Express</a></li>
+                    <li><a href="#">Life at American Express</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endblock header %}
+    {% block body %}
+    {% endblock body %}
+</body>
+</html>
