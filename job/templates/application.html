@@ -47,59 +47,11 @@
    {% endblock body %}
    {% block js %}
       {{block.super}}
-      <script type="text/javascript" src="{{STATIC_URL}}js/jquery.validate-1.14.0.js"></script>
+      <script type="text/javascript" src="{{STATIC_URL}}js/common.js"></script>
       <script type="text/javascript">
-         $("#id_applicationForm").validate({
-		rules: {
-			'name':'required',
-			'contact_no': {
-			    required:true,
-			    number:true,
-			    minlength:1,
-			    maxlength:10
-
-			},
-			'email':{
-			    required:true,
-			    email:true
-			},
-			'organization':'required',
-			'city':'required',
-			'state':'required'
-		},
-		ignore: [],
-
-		errorPlacement:function(error, element) {
-			// error.appendTo($(element).parent());
-		},
-		onfocusout:function(element) {
-				$(element).valid();
-		},
-		highlight:function(el) {
-		    switch(el.type){
-               case 'select-one':
-                   $(el).parent().addClass('redborder');
-               break;
-               default:
-                   $(el).addClass('redborder');
-               break;
-            }
-	    },
-
-		unhighlight:function(el){
-            switch(el.type){
-               case 'select-one':
-                $(el).parent().removeClass('redborder');
-               break;
-               default:
-                $(el).removeClass('redborder');
-               break;
-            }
-		}
-	});
-	$(document).on('change','.selectboxdiv',function(){
-	    $(this).next(".out").text($(this).find(":selected").text());
-     });
+        $(document).ready(function(){
+            $('.selectboxdiv').trigger('change');
+        });
       </script>
    {% endblock js %}
 

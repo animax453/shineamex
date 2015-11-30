@@ -11,15 +11,15 @@
           <label>Full Name</label>
         </div>
         <div class="input-field">
-          {{refree_form.name}}
+          {{refree_form.contact_no}}
           <label>Contact Number </label>
         </div>
         <div class="input-field">
-          {{refree_form.name}}
+          {{refree_form.email}}
           <label>Email Address</label>
         </div>
         <div class="input-field">
-          {{refree_form.name}}
+          {{refree_form.organization}}
           <label>Current/Last Organization</label>
         </div>
         <div class="input-field">
@@ -42,15 +42,15 @@
               <label>Full Name</label>
             </div>
             <div class="input-field">
-              {{refer_form.name}}
+              {{refer_form.contact_no}}
               <label>Contact Number </label>
             </div>
             <div class="input-field">
-              {{refer_form.name}}
+              {{refer_form.email}}
               <label>Email Address</label>
             </div>
             <div class="input-field">
-              {{refer_form.name}}
+              {{refer_form.organization}}
               <label>Current/Last Organization</label>
             </div>
             <div class="input-field">
@@ -71,7 +71,7 @@
         <div class="pull_left terms">
           <input name="" type="checkbox" value="Conditions">I agree to the Terms &amp; Conditions
         </div>
-        <div class="button m10 pull_left"><a href="#">Refer</a></div>
+        <div class="button m10 pull_left"><input type="submit" value="Refer"/></div>
       </form>
       <div class="border pull_left"></div>
       <div class="content pull_left">
@@ -84,15 +84,16 @@
 {% endblock body %}
 {% block js %}
       {{block.super}}
-      <script type="text/javascript" src="{{STATIC_URL}}js/jquery.validate-1.14.0.js"></script>
       <script type="text/javascript" src="{{STATIC_URL}}js/jquery.formset.js"></script>
+      <script type="text/javascript" src="{{STATIC_URL}}js/common.js"></script>
       <script type="text/javascript">
-
-
+        $(document).ready(function(){
+            $('.selectboxdiv').trigger('change');
+        });
         $('#id_referral_container .formset').formset({
 			        prefix: "{{ referral_formset.prefix }}",
 			        deleteText : '- Delete Referral',
-			        addText: '<div class="pull_left terms"><a href="#" class="pull_right">+ Add More Referral</a></div>',
+			        addText: '<div class="pull_left terms"><a href="javascript:void 0" class="pull_right">+ Add More Referral</a></div>',
 			        formCssClass: 'cls_referral_container',
 			        added: function(dom){
 			            var tot_len = $('#id_form-MAX_NUM_FORMS').val() || 5;
@@ -101,6 +102,26 @@
                         if(tot_len == present_len){
                           $('#id_referral_container').find('.addanother').hide();
                         }
+                          $(dom).find(".cls_referral_name").rules("add", {
+                            required:true
+                          });
+                          $(dom).find(".cls_referral_email").rules("add", {
+                            required:true,
+                            email:true
+                          });
+                          $(dom).find(".cls_referral_org").rules("add", {
+                            required:true
+                          });
+                          $(dom).find(".cls_referral_contactnum").rules("add", {
+                            required:true,
+                            number:true,
+                            minlength:1,
+                            maxlength:10
+                          });
+                          $(dom).find(".cls_referral_city").rules("add", {
+                            required:true
+                          });
+                          $(dom).find('.selectboxdiv').trigger('change');
 
 			        },
 			        removed : function(dom){
@@ -117,56 +138,6 @@
 				          }
 			        }
 			      });
-
-			      $("#id_applicationForm").validate({
-		rules: {
-			'name':'required',
-			'contact_no': {
-			    required:true,
-			    number:true,
-			    minlength:1,
-			    maxlength:10
-
-			},
-			'email':{
-			    required:true,
-			    email:true
-			},
-			'organization':'required',
-			'city':'required',
-			'state':'required'
-		},
-		ignore: [],
-
-		errorPlacement:function(error, element) {
-			// error.appendTo($(element).parent());
-		},
-		onfocusout:function(element) {
-				$(element).valid();
-		},
-		highlight:function(el) {
-		    switch(el.type){
-               case 'select-one':
-                   $(el).parent().addClass('redborder');
-               break;
-               default:
-                   $(el).addClass('redborder');
-               break;
-            }
-	    },
-
-		unhighlight:function(el){
-            switch(el.type){
-               case 'select-one':
-                $(el).parent().removeClass('redborder');
-               break;
-               default:
-                $(el).removeClass('redborder');
-               break;
-            }
-		}
-	});
-
-
+/* Formset binding to referral form */
       </script>
 {% endblock js %}
