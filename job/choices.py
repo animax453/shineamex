@@ -23,3 +23,5 @@ SALARY_K2V = {tup[0]:tup[1] for tup in SALARY_CHOICES}
 LOCATION_CHOICES = ((0,"Not Mentioned"),)
 
 LOCATION_K2V = {tup[0]:tup[1] for tup in LOCATION_CHOICES}
+
+CANDIDATE_CITY_CHOICES = ((0,"Not Mentioned"),)

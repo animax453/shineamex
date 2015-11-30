@@ -3,9 +3,10 @@
 #django imports
 from django.http import Http404, HttpResponseRedirect
 from django.utils.text import slugify
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, FormView
 
 #local imports
+from forms import JobApplicationForm
 from models import Job
 
 #inter app imports
@@ -56,3 +57,8 @@ class JobDetail(TemplateView):
 		context = super(JobDetail,self).get_context_data(**kwargs)
 		context['job'] = self.job
 		return context
+
+class JobApplicationView(FormView):
+	template_name = "application.html"
+	form_class = JobApplicationForm
+

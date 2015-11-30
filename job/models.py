@@ -29,3 +29,11 @@ class Job(models.Model):
 	def __unicode__(self):
 		return self.title
 
+class JobApplication(models.Model):
+	name = models.CharField(max_length=50)
+	contact_no = models.IntegerField()
+	email = models.EmailField()
+	organization = models.CharField(max_length=100)
+	city = models.IntegerField(choices=CANDIDATE_CITY_CHOICES,default=0)
+	application_date = models.DateTimeField(default=datetime.now)
+
