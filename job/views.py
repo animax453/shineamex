@@ -9,7 +9,7 @@ from django.views.generic import ListView, TemplateView, FormView
 from django.forms.models import formset_factory
 
 #local imports
-from forms import JobApplicationForm, JobRefferalForm, RefreeForm
+from forms import JobApplicationForm, ReferralForm, RefreeForm
 from models import Job
 
 #inter app imports
@@ -97,9 +97,9 @@ class ReferView(TemplateView):
 	template_name = "refer.html"
 
 	def get_context_data(self,**kwargs):
-		ReferralFormSet = formset_factory(JobRefferalForm,extra=1, max_num=5)
+		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=5)
 		context['refrral_formset'] = ReferralFormSet()
-		context['refree_form'] = JobRefferalForm()
+		context['refree_form'] = ReferralForm()
 		return context
 
 

@@ -6,7 +6,7 @@ from django.forms import ModelForm
 
 #local imports
 from choices import *
-from models import JobApplication, Job, Refree
+from models import JobApplication, JobReferral, Refree
 
 #inter app imports
 
