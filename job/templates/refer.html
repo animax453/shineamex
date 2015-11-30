@@ -1,57 +1,73 @@
 {% extends "layout_amex.html" %}
 {% block body %}
   <div class="base pull_left">
-    <div class="cointainer"><img src="images/head_image.jpg" class="image" >
+    <div class="cointainer"><img src="{{STATIC_URL}}images/head_image.jpg" class="image" >
       <h2>My Details</h2>
       <div class="border padding0"></div>
-      <form>
+      <form id="id_referralForm" method="post" action="">
         {%csrf_token%}
         <div class="input-field">
-          <input type="text" required>
+          {{refree_form.name}}
           <label>Full Name</label>
         </div>
         <div class="input-field">
-          <input type="text" required>
+          {{refree_form.name}}
           <label>Contact Number </label>
         </div>
         <div class="input-field">
-          <input type="text" required>
+          {{refree_form.name}}
           <label>Email Address</label>
         </div>
         <div class="input-field">
-          <input type="text" required>
+          {{refree_form.name}}
           <label>Current/Last Organization</label>
+        </div>
+        <div class="input-field">
+          <div class="pull_left" style="width:99.5%">
+             <div class="selectdiv">
+               {{refree_form.city}}
+                <div class="out">- City -</div>
+             </div>
+          </div>
         </div>
 
-        <div class="input-field">
-          <input type="text" required>
-          <label>State and city dropdown to be done by tech</label>
+        <h2 class="m10">Referral Details</h2>
+        <div class="border padding0"></div>
+        <div id="id_referral_container">
+
+          {% for refer_form in referral_formset.forms %}
+          <div class="formset cls_referral_container">
+            <div class="input-field">
+              {{refer_form.name}}
+              <label>Full Name</label>
+            </div>
+            <div class="input-field">
+              {{refer_form.name}}
+              <label>Contact Number </label>
+            </div>
+            <div class="input-field">
+              {{refer_form.name}}
+              <label>Email Address</label>
+            </div>
+            <div class="input-field">
+              {{refer_form.name}}
+              <label>Current/Last Organization</label>
+            </div>
+            <div class="input-field">
+              <div class="pull_left" style="width:99.5%">
+                 <div class="selectdiv">
+                   {{refer_form.city}}
+                    <div class="out">- City -</div>
+                 </div>
+              </div>
+            </div>
+          <div style="clear:both">&nbsp;</div>
+          </div>
+          {% endfor%}
+          {{ referral_formset.management_form }}
+
         </div>
-      </form><br>  <br>
-      <h2 class="m10">Referral Details</h2>
-      <div class="border padding0"></div>
-      <form>
-        <div class="input-field">
-          <input type="text" required>
-          <label>Full Name</label>
-        </div>
-        <div class="input-field">
-          <input type="text" required>
-          <label>Contact Number </label>
-        </div>
-        <div class="input-field">
-          <input type="text" required>
-          <label>Email Address</label>
-        </div>
-        <div class="input-field">
-          <input type="text" required>
-          <label>Current/Last Organization</label>
-        </div>
-        <div class="input-field">
-          <input type="text" required>
-          <label>State and city dropdown to be done by tech</label>
-        </div>
-        <div class="pull_left terms"><a href="#" class="pull_right">+ Add More Referral</a></div>
+        <!--<div class="pull_left terms"><a href="#" class="pull_right">+ Add More Referral</a></div>-->
         <div class="pull_left terms">
           <input name="" type="checkbox" value="Conditions">I agree to the Terms &amp; Conditions
         </div>
@@ -66,3 +82,91 @@
     </div>
   </div>
 {% endblock body %}
+{% block js %}
+      {{block.super}}
+      <script type="text/javascript" src="{{STATIC_URL}}js/jquery.validate-1.14.0.js"></script>
+      <script type="text/javascript" src="{{STATIC_URL}}js/jquery.formset.js"></script>
+      <script type="text/javascript">
+
+
+        $('#id_referral_container .formset').formset({
+			        prefix: "{{ referral_formset.prefix }}",
+			        deleteText : '- Delete Referral',
+			        addText: '<div class="pull_left terms"><a href="#" class="pull_right">+ Add More Referral</a></div>',
+			        formCssClass: 'cls_referral_container',
+			        added: function(dom){
+			            var tot_len = $('#id_form-MAX_NUM_FORMS').val() || 5;
+                        var present_len = $('.cls_referral_container').length;
+                        $('#id_form-TOTAL_FORMS').attr('value',present_len);
+                        if(tot_len == present_len){
+                          $('#id_referral_container').find('.addanother').hide();
+                        }
+
+			        },
+			        removed : function(dom){
+                        var tot_len = $('#id_form-MAX_NUM_FORMS').val() || 5;
+                        var present_len = $('.cls_referral_container').length;
+				        $('#id_form-TOTAL_FORMS').attr('value',present_len);
+				          if(present_len == 1)
+				          {
+							$('.delete-row').hide();
+				          }
+				          else if(tot_len > present_len)
+				          {
+				           $('#id_referral_container').find('.delete-row').show();
+				          }
+			        }
+			      });
+
+			      $("#id_applicationForm").validate({
+		rules: {
+			'name':'required',
+			'contact_no': {
+			    required:true,
+			    number:true,
+			    minlength:1,
+			    maxlength:10
+
+			},
+			'email':{
+			    required:true,
+			    email:true
+			},
+			'organization':'required',
+			'city':'required',
+			'state':'required'
+		},
+		ignore: [],
+
+		errorPlacement:function(error, element) {
+			// error.appendTo($(element).parent());
+		},
+		onfocusout:function(element) {
+				$(element).valid();
+		},
+		highlight:function(el) {
+		    switch(el.type){
+               case 'select-one':
+                   $(el).parent().addClass('redborder');
+               break;
+               default:
+                   $(el).addClass('redborder');
+               break;
+            }
+	    },
+
+		unhighlight:function(el){
+            switch(el.type){
+               case 'select-one':
+                $(el).parent().removeClass('redborder');
+               break;
+               default:
+                $(el).removeClass('redborder');
+               break;
+            }
+		}
+	});
+
+
+      </script>
+{% endblock js %}

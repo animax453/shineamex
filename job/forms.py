@@ -58,11 +58,11 @@ class RefreeForm(JobApplicationForm):
 
 class ReferralForm(JobApplicationForm):
 
-	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv cls_referral'}))
-	name = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
-	contact_no = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
-	email = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
-	organization = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
+	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv cls_referral_city'}))
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_name'}))
+	contact_no = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_contactnum'}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_email'}))
+	organization = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_org'}))
 
 	class Meta:
 		model = JobReferral
