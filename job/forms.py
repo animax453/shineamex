@@ -14,7 +14,7 @@ from models import JobApplication
 
 class JobApplicationForm(ModelForm):
 
-	city = forms.ChoiceField(choices=widget=CANDIDATE_CITY_CHOICES,forms.Select(attrs={'class':'selectboxdiv'}))
+	city = forms.ChoiceField(choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	state = forms.ChoiceField(choices=CANDIDATE_STATE_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	
 	class Meta:
