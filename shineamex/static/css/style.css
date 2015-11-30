@@ -108,6 +108,7 @@ input:focus ~ label, input:valid ~ label 		{
     z-index: -1;
 }
 .mar_rgt26{margin-right:34px;}
+.redborder{background:#ffefef !important; color:#f00 !important; border:solid 1px #f00 !important;}
 /* =======================================
 1. Section: header
 ======================================== */
