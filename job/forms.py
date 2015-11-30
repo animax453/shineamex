@@ -15,7 +15,7 @@ from models import JobApplication, JobReferral, Refree, Job
 class JobApplicationForm(ModelForm):
 
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
-	
+
 	class Meta:
 		model = JobApplication
 		fields = ['name','contact_no','email','organization','city']
@@ -57,6 +57,12 @@ class RefreeForm(JobApplicationForm):
 		return super(JobApplicationForm,self).save(commit)
 
 class ReferralForm(JobApplicationForm):
+
+	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv cls_referral'}))
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
+	contact_no = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
+	organization = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral'}))
 
 	class Meta:
 		model = JobReferral
