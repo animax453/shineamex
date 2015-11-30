@@ -57,10 +57,10 @@ class RefreeForm(FormMixin,ModelForm):
 class ReferralForm(FormMixin,ModelForm):
 
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv cls_referral_city'}))
-	name = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_name'}))
-	contact_no = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_contactnum'}))
-	email = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_email'}))
-	organization = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_org'}))
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_name','maxlength':100}))
+	contact_no = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_contactnum','maxlength':10}))
+	email = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_email','maxlength':100}))
+	organization = forms.CharField(widget=forms.TextInput(attrs={'class':'cls_referral_org','maxlength':200}))
 
 	class Meta:
 		model = JobReferral
