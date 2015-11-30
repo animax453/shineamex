@@ -3,9 +3,9 @@
 #django imports
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.utils.text import slugify
-from django.views.generic import ListView, TemplateView, FormView
+from django.views.generic import ListView, TemplateView, FormView, View
 from django.forms.models import formset_factory
 
 #local imports
@@ -97,12 +97,19 @@ class ReferView(TemplateView):
 	template_name = "refer.html"
 
 	def get_context_data(self,**kwargs):
-		# import ipdb;ipdb.set_trace();
 		context = super(ReferView,self).get_context_data(**kwargs)
 		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=5)
 		context['referral_formset'] = ReferralFormSet()
 		context['refree_form'] = ReferralForm()
 		return context
+
+class AppliesDownload(View):
+	def get(self,request,*args,**kwargs):
+		return HttpResponse("Hello World")
+
+class ReferralsDownload(View):
+	def get(self,request,*args,**kwargs):
+		return HttpResponse("Hello World")
 
 
 
