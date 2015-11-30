@@ -1,9 +1,9 @@
 #python imports
 
 #django imports
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.utils.text import slugify
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 #local imports
 from models import Job
@@ -28,3 +28,31 @@ class JobList(ListView):
 				raise Http404
 			return jobs
 		return Job.objects.all().select_related('recruiter').order_by('-edited_date')
+
+class JobDetail(TemplateView):
+
+	template_name = "job_detail.html"
+	job = None
+
+	def redirect_path(self):
+		if self.kwargs.get('job_title') != slugify(self.job.title):
+			return "/job/"+slugify(self.job.title)+"/"+str(self.job.id)+"/"
+
+	def get(self,request,*args,**kwargs):
+		job_id = int(kwargs.get('job_id'))
+		job_title = kwargs.get('job_title')
+		job = Job.objects.filter(id=job_id)
+		if not job:
+			raise Http404
+		self.job = job[0]
+
+		redirect_path = self.redirect_path()
+		if redirect_path:
+			return HttpResponseRedirect(redirect_path)
+		return super(JobDetail,self).get(request,*args,**kwargs)
+
+
+	def get_context_data(self,**kwargs):
+		context = super(JobDetail,self).get_context_data(**kwargs)
+		context['job'] = self.job
+		return context
