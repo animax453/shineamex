@@ -18,10 +18,13 @@ class Job(models.Model):
 	experience = models.IntegerField(choices=EXP_CHOICES,default=0)
 	location = models.IntegerField(choices=LOCATION_CHOICES,default=0)
 	farea = models.IntegerField(choices=FA_CHOICES,default=0)
-	edited_date = models.DateTimeField(default=datetime.now)
+	edited_date = models.DateTimeField(auto_now=True)
 	recruiter = models.ForeignKey(Company)
 	short_desc = models.CharField(max_length=200)
 	description = models.TextField()
+
+	class Meta:
+		verbose_name_plural = "Jobs"
 
 	def __unicode__(self):
 		return self.title

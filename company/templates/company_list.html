@@ -1,0 +1,10 @@
+<html>
+<head>
+	<title> Company List</title>
+</head>
+<body>
+	{%for company in object_list%}
+	<a href = "/jobs/{{company.name|slugify}}/{{company.id}}/">{{company.name}}</a>
+	{% endfor %}
+</body>
+</html>
