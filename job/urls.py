@@ -4,7 +4,7 @@
 from django.conf.urls import url
 
 #local imports
-from views import JobList, JobDetail, JobApplicationView, ThanksView, ReferView
+from views import JobList, JobDetail, JobApplicationView, ThanksView, ReferView, AppliesDownload, ReferralsDownload
 
 #inter app imports
 
@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^job/(?P<job_title>[a-z0-9 -]+)/(?P<job_id>[0-9]+)/$', JobDetail.as_view()),
     url(r'^apply/(?P<job_id>[0-9]+)/$', JobApplicationView.as_view()),
     url(r'^thanks/$', ThanksView.as_view()),
-    url(r'^refer/(?P<job_id>[0-9]+)/$', ReferView.as_view()),]
+    url(r'^refer/(?P<job_id>[0-9]+)/$', ReferView.as_view()),
+    url(r'^applies/download/$',AppliesDownload.as_view()),
+    url(r'^referrals/download/$',ReferralsDownload.as_view()),]

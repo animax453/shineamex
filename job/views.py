@@ -1,6 +1,8 @@
 #python imports
+from datetime import datetime, date
 
 #django imports
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponseRedirect, HttpResponse
@@ -10,11 +12,12 @@ from django.forms.models import formset_factory
 
 #local imports
 from forms import JobApplicationForm, ReferralForm, RefreeForm
-from models import Job
+from models import Job, JobApplication, Refree
 
 #inter app imports
 
 #third party imports
+import xlwt
 
 class JobList(ListView):
 
@@ -98,14 +101,89 @@ class ReferView(TemplateView):
 
 	def get_context_data(self,**kwargs):
 		context = super(ReferView,self).get_context_data(**kwargs)
-		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=5)
+		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=3)
 		context['referral_formset'] = ReferralFormSet()
 		context['refree_form'] = RefreeForm()
 		return context
 
+	def save_refree_form(self):
+		refree_email = self.request.POST.get('email')
+		refree = Refree.objects.filter(email=refree_email)
+		if refree:
+			return refree[0],True
+
+		refree_fields = ['name','email','contact_no','organization','city']
+		refree_form_data = {field:self.request.POST.get(field) for field in refree_fields}
+		refree_form = RefreeForm(refree_form_data)
+		if refree_form.is_valid():
+			return refree_form.save(),True
+		else:
+			return refree_form,False
+
+	def render_form_errors(self,request):
+		context = {}
+		ReferralFormSet = formset_factory(ReferralForm,extra=1, max_num=3)
+		context['referral_formset'] = ReferralFormSet(request.POST)
+		context['refree_form'] = RefreeForm(request.POST)
+		return render(request,self.template_name,context=context)
+
+
+	def post(self,request,*args,**kwargs):
+		# referral_formset = ReferralFormSet(request.POST)
+		# refree_form = RefreeForm(request.POST)
+		# if not referral_formset.is_valid() or not refree_form.is_valid():
+		# 	return self.render_form_errors(request)
+		
+		refree,valid = self.save_refree_form()
+		if not valid:
+			return self.render_form_errors(request)
+		total_forms = int(request.POST.get('form-TOTAL_FORMS',"1"))
+		referral_form_list = []
+		
+		for i in range(0,total_forms):
+			referral_form_data = {}
+			referral_form_fields = ['name','email','contact_no','organization','city']
+			for field in referral_form_fields:
+				referral_form_data[field] = request.POST.get('form-'+str(i)+'-'+field)
+			form_kwargs = {"job_id":kwargs.get('job_id'),"refree":refree}
+			form_kwargs.update({"data":referral_form_data})
+			referral_form = ReferralForm(**form_kwargs)
+			if referral_form.is_valid():
+				referral_form_list.append(referral_form)
+			else:
+				return self.render_form_errors(request)
+
+		for form in referral_form_list:
+			form.save()
+		return HttpResponseRedirect("/thanks/")
+
+
 class AppliesDownload(View):
 	def get(self,request,*args,**kwargs):
-		return HttpResponse("Hello World")
+		book = xlwt.Workbook(encoding='utf8')
+		sheet = book.add_sheet('untitled')
+
+		default_style = xlwt.Style.default_style
+		datetime_style = xlwt.easyxf(num_format_str='dd/mm/yyyy hh:mm')
+		date_style = xlwt.easyxf(num_format_str='dd/mm/yyyy')
+
+		values_list = JobApplication.objects.all().values_list('name','email')
+
+		for row, rowdata in enumerate(values_list):
+			for col, val in enumerate(rowdata):
+				# if isinstance(val, datetime):
+				# 	style = datetime_style
+				# elif isinstance(val, date):
+				# 	style = date_style
+				# else:
+				# 	style = default_style
+
+				sheet.write(row, col, val)
+
+		response = HttpResponse(mimetype='application/vnd.ms-excel')
+		response['Content-Disposition'] = 'attachment; filename=example.xls'
+		book.save(response)
+		return response
 
 class ReferralsDownload(View):
 	def get(self,request,*args,**kwargs):

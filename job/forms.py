@@ -51,15 +51,17 @@ class JobApplicationForm(FormMixin,ModelForm):
 		return apply_job 
 
 
-class RefreeForm(FormMixin,ModelForm):
+class RefreeForm(ModelForm):
 	city = forms.ChoiceField(initial="-1",choices=CANDIDATE_CITY_CHOICES,widget=forms.Select(attrs={'class':'selectboxdiv'}))
 	name = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
 	contact_no = forms.CharField(widget=forms.TextInput(attrs={'maxlength':10}))
 	email = forms.CharField(widget=forms.TextInput(attrs={'maxlength':100}))
 	organization = forms.CharField(widget=forms.TextInput(attrs={'maxlength':200}))
+
 	class Meta:
 		model = Refree
 		fields = ['name','contact_no','email','organization','city']
+
 
 class ReferralForm(FormMixin,ModelForm):
 
@@ -73,9 +75,26 @@ class ReferralForm(FormMixin,ModelForm):
 		model = JobReferral
 		fields = ['name','contact_no','email','organization','city']
 
+	def __init__(self,**kwargs):
+		if kwargs.get('refree'):
+			self.refree = kwargs['refree']
+			kwargs.pop('refree')
+
+		if kwargs.get('job_id'):
+			self.job_id = kwargs['job_id']
+			kwargs.pop('job_id')
+		return super(ReferralForm,self).__init__(**kwargs)
+
+	def clean_email(self):
+		existing_referral = JobReferral.objects.filter(email=self.cleaned_data.get('email'),job_id=self.job_id)
+		if existing_referral:
+			raise forms.ValidationError("This email id has already been referred for this job")
+		return super(ReferralForm,self).clean_email()
+
 	def save(self,commit=True):
-		apply_job = super(JobApplicationForm,self).save(False)
-		setattr(apply_job,'job_id',int(self.job_id))
-		apply_job.save()
-		return apply_job 
+		referral = super(ReferralForm,self).save(False)
+		setattr(referral,'job_id',int(self.job_id))
+		setattr(referral,'refree',self.refree)
+		referral.save()
+		return referral 
 

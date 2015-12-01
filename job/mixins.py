@@ -3,6 +3,7 @@
 #django imports
 
 #local imports
+from models import Job
 
 #inter app imports
 
@@ -10,11 +11,11 @@
 
 class FormMixin(object):
 
-	def __init__(self,**kwargs):
-		if kwargs.get('job_id'):
-			self.job_id = kwargs['job_id']
-			kwargs.pop('job_id')
-		return super(FormMixin,self).__init__(**kwargs)
+	# def __init__(self,**kwargs):
+	# 	if kwargs.get('job_id'):
+	# 		self.job_id = kwargs['job_id']
+	# 		kwargs.pop('job_id')
+	# 	return super(FormMixin,self).__init__(**kwargs)
 
 	def clean(self):
 		if not Job.objects.filter(id=int(self.job_id)):
